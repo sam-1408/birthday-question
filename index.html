@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Quiz for My Penguin 🐧</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #1a1a2e, #3a0ca3);
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1 {
+      color: #ff66c4;
+    }
+
+    .question {
+      margin: 30px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      max-width: 600px;
+      box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+    }
+
+    button.option {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ff66c4;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button.option:hover {
+      background-color: #ff1493;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #gift-container {
+      margin-top: 50px;
+    }
+
+    #gift-box {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      background: url('https://i.imgur.com/N1t6VqN.png') no-repeat center/contain;
+      cursor: pointer;
+      transition: transform 0.5s ease;
+    }
+
+    #gift-box.opened {
+      background: url('https://i.imgur.com/yjNRL4G.png') no-repeat center/contain;
+      transform: scale(1.1);
+    }
+
+    #letter {
+      margin-top: 20px;
+      font-size: 18px;
+      white-space: pre-wrap;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 4px 10px rgba(255,255,255,0.2);
+      display: none;
+    }
+
+    /* Floating hearts animation */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      left: 50%;
+      top: 100%;
+      transform: rotate(45deg);
+      animation: floatUp 8s infinite ease-in;
+      opacity: 0.8;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-120vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating hearts -->
+  <script>
+    for (let i = 0; i < 25; i++) {
+      let heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 5 + Math.random() * 5 + "s";
+      heart.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+      document.body.appendChild(heart);
+    }
+  </script>
+
+  <h1>🎉 Birthday Quiz for My Penguin 🐧</h1>
+
+  <div class="question" data-question="1">
+    <p><strong>1. Where we met first?</strong></p>
+    <button class="option" data-answer="false">Minecraft</button>
+    <button class="option" data-answer="true">Among Us</button>
+    <button class="option" data-answer="false">Fortnite</button>
+  </div>
+
+  <div class="question" data-question="2">
+    <p><strong>2. When did we meet?</strong></p>
+    <button class="option" data-answer="false">15th March</button>
+    <button class="option" data-answer="false">21st August</button>
+    <button class="option" data-answer="true">2nd July</button>
+  </div>
+
+  <div class="question" data-question="3">
+    <p><strong>3. When did I first propose to you?</strong></p>
+    <button class="option" data-answer="false">19th August</button>
+    <button class="option" data-answer="true">7th July</button>
+    <button class="option" data-answer="false">5th June</button>
+  </div>
+
+  <div class="question" data-question="4">
+    <p><strong>4. When did you accept my proposal?</strong></p>
+    <button class="option" data-answer="true">21 November</button>
+    <button class="option" data-answer="false">3 October</button>
+    <button class="option" data-answer="false">12 December</button>
+  </div>
+
+  <div id="gift-container" class="hidden">
+    <div id="gift-box"></div>
+    <div id="letter">
+      🎉 HAPPY BIRTHDAY MY PENGUIN 🐧  
+      I LOVEEEE YOUUUUUUUU SOOOO MUCHHHHHH MERI YANA...  
+      I WILL PRAY THAT ALL OF TENSIONS FADES AWAYS AND YOUR SMILE SHOULD NEVER VANISH...  
+      I M ALWAYS WITH YOU AND KEEP YOU SAFE AND HAPPY FOREVER...  
+      I LOVE YOU TILL THE END AND I WILL TAKE CARE OF YOU FOREVER...
+    </div>
+  </div>
+
+  <script>
+    const questions = document.querySelectorAll(".question");
+    let answers = {};
+
+    document.querySelectorAll(".option").forEach(button => {
+      button.addEventListener("click", function () {
+        const questionDiv = this.closest(".question");
+        const qNum = questionDiv.dataset.question;
+        const isCorrect = this.dataset.answer === "true";
+        answers[qNum] = isCorrect;
+
+        questionDiv.querySelectorAll(".option").forEach(btn => {
+          btn.disabled = true;
+          btn.style.backgroundColor = btn.dataset.answer === "true" ? "#4CAF50" : "#D32F2F";
+        });
+
+        checkAllAnswers();
+      });
+    });
+
+    function checkAllAnswers() {
+      if (Object.keys(answers).length === questions.length &&
+        Object.values(answers).every(Boolean)) {
+        document.getElementById("gift-container").classList.remove("hidden");
+      }
+    }
+
+    const giftBox = document.getElementById("gift-box");
+    const letter = document.getElementById("letter");
+
+    giftBox.addEventListener("click", () => {
+      giftBox.classList.add("opened");
+      letter.style.display = "block";
+    });
+  </script>
+
+</body>
+</html>
